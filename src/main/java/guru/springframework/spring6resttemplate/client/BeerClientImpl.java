@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @Service
@@ -15,14 +17,20 @@ public class BeerClientImpl implements BeerClient {
 
     private final RestTemplateBuilder restTemplateBuilder;
 
+    private static final String BASE_URL = "http://localhost:8080";
+
+    private static final String BEERS_URL = "/api/v1/beer";
+
     @Override
     public Page<BeerDTO> listBeers() {
 
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        ResponseEntity<String> stringResponseEntity = restTemplate.getForEntity("http://localhost:8080/api/v1/beer", String.class);
+        ResponseEntity<String> stringResponse = restTemplate.getForEntity(BASE_URL + BEERS_URL, String.class);
 
-        System.out.println(stringResponseEntity.getBody());
+        ResponseEntity<Map> MapResponse = restTemplate.getForEntity(BASE_URL + BEERS_URL, Map.class);
+
+        System.out.println(stringResponse.getBody());
         return null;
     }
 }
