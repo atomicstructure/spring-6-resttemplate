@@ -16,8 +16,6 @@ public class BeerClientImpl implements BeerClient {
 
     private final RestTemplateBuilder restTemplateBuilder;
 
-    private static final String BASE_URL = "http://localhost:8080";
-
     private static final String BEERS_URL = "/api/v1/beer";
 
     @Override
@@ -25,7 +23,7 @@ public class BeerClientImpl implements BeerClient {
 
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        ResponseEntity<BeerDTOPageImpl> stringResponse = restTemplate.getForEntity(BASE_URL + BEERS_URL, BeerDTOPageImpl.class);
+        ResponseEntity<BeerDTOPageImpl> stringResponse = restTemplate.getForEntity(BEERS_URL, BeerDTOPageImpl.class);
 
 
         return null;
