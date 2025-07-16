@@ -20,7 +20,6 @@ import java.util.UUID;
 public class BeerClientImpl implements BeerClient {
 
 
-
     private final RestTemplateBuilder restTemplateBuilder;
 
     private static final String BEERS_URL = "/api/v1/beer";
@@ -39,23 +38,23 @@ public class BeerClientImpl implements BeerClient {
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromPath(BEERS_URL);
 
-        if (beerName != null){
+        if (beerName != null) {
             uriComponentsBuilder.queryParam("beerName", beerName);
         }
 
-        if (beerStyle != null){
+        if (beerStyle != null) {
             uriComponentsBuilder.queryParam("beerStyle", beerStyle);
         }
 
-        if (showInventory != null){
+        if (showInventory != null) {
             uriComponentsBuilder.queryParam("showInventory", showInventory);
         }
 
-        if (pageNumber != null){
+        if (pageNumber != null) {
             uriComponentsBuilder.queryParam("pageNumber", pageNumber);
         }
 
-        if (pageSize != null){
+        if (pageSize != null) {
             uriComponentsBuilder.queryParam("pageSize", pageSize);
         }
 
@@ -78,4 +77,12 @@ public class BeerClientImpl implements BeerClient {
         URI uri = restTemplate.postForLocation(BEERS_URL, beerDTO);
         return restTemplate.getForObject(uri.getPath(), BeerDTO.class);
     }
+
+    @Override
+    public BeerDTO updateByID(BeerDTO beerDTO) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.put(BEER_ID_URL, beerDTO, beerDTO.getId());
+        return getBeerById(beerDTO.getId());
+    }
 }
+
