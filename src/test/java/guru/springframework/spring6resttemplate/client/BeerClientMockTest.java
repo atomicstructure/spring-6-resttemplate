@@ -59,7 +59,20 @@ public class BeerClientMockTest {
         beerClient = new BeerClientImpl(mockRestTemplateBuilder);
     }
 
+    @Test
+    void testGetById() throws JsonProcessingException {
+        BeerDTO dto = getBeerDto();
 
+        String response = objectMapper.writeValueAsString(dto);
+
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestToUriTemplate(URL +
+                        BeerClientImpl.BEER_ID_URL, dto.getId()))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+        BeerDTO responseDto = beerClient.getBeerById(dto.getId());
+        assertThat(responseDto.getId()).isEqualTo(dto.getId());
+    }
 
     @Test
     void testListBeers() throws JsonProcessingException {
