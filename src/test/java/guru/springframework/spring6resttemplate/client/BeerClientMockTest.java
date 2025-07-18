@@ -69,6 +69,18 @@ public class BeerClientMockTest {
     }
 
     @Test
+    void testDeleteBeer() {
+        server.expect(method(HttpMethod.DELETE))
+                .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_ID_URL,
+                        dto.getId()))
+                .andRespond(withNoContent());
+
+        beerClient.deleteBeer(dto.getId());
+
+        server.verify();
+    }
+
+    @Test
     void testUpdateBeer() {
         server.expect(method(HttpMethod.PUT))
                 .andExpect(requestToUriTemplate(URL + BeerClientImpl.BEER_ID_URL,
